@@ -16,6 +16,7 @@
 		B7B346B62C4F56FD0051AA82 /* Contextual_CalendarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B346B52C4F56FD0051AA82 /* Contextual_CalendarTests.swift */; };
 		B7B346C02C4F56FD0051AA82 /* Contextual_CalendarUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B346BF2C4F56FD0051AA82 /* Contextual_CalendarUITests.swift */; };
 		B7B346C22C4F56FD0051AA82 /* Contextual_CalendarUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B346C12C4F56FD0051AA82 /* Contextual_CalendarUITestsLaunchTests.swift */; };
+		B7B346D12C506F500051AA82 /* WeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B346D02C506F500051AA82 /* WeekView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		B7B346BB2C4F56FD0051AA82 /* Contextual CalendarUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Contextual CalendarUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7B346BF2C4F56FD0051AA82 /* Contextual_CalendarUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contextual_CalendarUITests.swift; sourceTree = "<group>"; };
 		B7B346C12C4F56FD0051AA82 /* Contextual_CalendarUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contextual_CalendarUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		B7B346D02C506F500051AA82 /* WeekView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 			children = (
 				B7B3469F2C4F56FC0051AA82 /* Contextual_CalendarApp.swift */,
 				B7B346A12C4F56FC0051AA82 /* ContentView.swift */,
+				B7B346D02C506F500051AA82 /* WeekView.swift */,
 				B7B346A32C4F56FC0051AA82 /* Assets.xcassets */,
 				B7B346A82C4F56FC0051AA82 /* Persistence.swift */,
 				B7B346AA2C4F56FC0051AA82 /* Contextual_Calendar.xcdatamodeld */,
@@ -264,6 +267,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7B346AC2C4F56FC0051AA82 /* Contextual_Calendar.xcdatamodeld in Sources */,
+				B7B346D12C506F500051AA82 /* WeekView.swift in Sources */,
 				B7B346A92C4F56FC0051AA82 /* Persistence.swift in Sources */,
 				B7B346A22C4F56FC0051AA82 /* ContentView.swift in Sources */,
 				B7B346A02C4F56FC0051AA82 /* Contextual_CalendarApp.swift in Sources */,
