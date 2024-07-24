@@ -1,10 +1,18 @@
 import SwiftUI
 
+struct IdentifiableDate: Identifiable {
+    let id = UUID()
+    let date: Date
+}
+
 struct ContentView: View {
     @State private var currentDate = Date()
+    @State private var showingAddBirthday = false
+    @State private var selectedDate: IdentifiableDate?
+    @EnvironmentObject var birthdayManager: BirthdayManager
     private let calendar = Calendar.current
-    private let weekdaySymbols = Calendar.current.veryShortWeekdaySymbols
-    
+    private let weekdaySymbols = Calendar.current.shortWeekdaySymbols // Change to shortWeekdaySymbols
+
     var body: some View {
         ZStack {
             VStack(spacing: 20) {
@@ -32,6 +40,14 @@ struct ContentView: View {
             
             bottomBar
         }
+        .sheet(isPresented: $showingAddBirthday) {
+            AddBirthdayView()
+                .environmentObject(birthdayManager)
+        }
+        .sheet(item: $selectedDate) { selectedDate in
+            BirthdayDetailView(date: selectedDate.date)
+                .environmentObject(birthdayManager)
+        }
     }
 
     private var headerView: some View {
@@ -57,21 +73,25 @@ struct ContentView: View {
 
     private var weekdayHeaderView: some View {
         HStack {
-            ForEach(weekdaySymbols.indices, id: \.self) { index in
-                Text(weekdaySymbols[index])
+            ForEach(weekdaySymbols, id: \.self) { symbol in
+                Text(symbol)
                     .frame(maxWidth: .infinity)
                     .font(.subheadline)
                     .fontWeight(.semibold)
-                    .foregroundColor(.gray)
+                    .foregroundColor(.red)
+                    .opacity(0.7)
             }
         }
     }
 
     private var calendarGridView: some View {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 15) {
-            ForEach(daysInMonth().indices, id: \.self) { index in
-                if let date = daysInMonth()[index] {
+            ForEach(daysInMonth(), id: \.self) { date in
+                if let date = date {
                     dayView(for: date)
+                        .onTapGesture {
+                            selectedDate = IdentifiableDate(date: date)
+                        }
                 } else {
                     Color.clear.frame(height: 50)
                 }
@@ -83,21 +103,32 @@ struct ContentView: View {
         let isToday = calendar.isDateInToday(date)
         let isCurrentMonth = calendar.isDate(date, equalTo: currentDate, toGranularity: .month)
         
-        return Text("\(calendar.component(.day, from: date))")
-            .frame(height: 50)
-            .frame(maxWidth: .infinity)
-            .background(isToday ? Color.red : Color.clear)
-            .foregroundColor(isToday ? .white : (isCurrentMonth ? .primary : .secondary))
-            .font(isToday ? .title3.bold() : .title3)
-            .clipShape(Circle())
-            .opacity(isCurrentMonth ? 1 : 0.5)
+        return ZStack {
+            Text("\(calendar.component(.day, from: date))")
+                .frame(height: 50)
+                .frame(maxWidth: .infinity)
+                .background(isToday ? Color.red : Color.clear)
+                .foregroundColor(isToday ? .white : (isCurrentMonth ? .primary : .secondary))
+                .font(isToday ? .title3.bold() : .title3)
+                .clipShape(Circle())
+                .opacity(isCurrentMonth ? 1 : 0.5)
+            
+            if birthdayManager.birthdays(on: date).count > 0 {
+                VStack {
+                    Spacer()
+                    Text("🎉")
+                        .font(.caption)
+                        .padding(.top, 25)
+                }
+            }
+        }
     }
 
     private var bottomBar: some View {
         VStack {
             Spacer()
             HStack {
-                Spacer()
+                Spacer() // This will push the "Today" button to the center
                 Button(action: {
                     currentDate = Date()
                 }) {
@@ -109,14 +140,30 @@ struct ContentView: View {
                         .background(Color.red.opacity(0.2))
                         .cornerRadius(30)
                 }
-                Spacer()
+                Spacer() // This will push the "+" button to the right corner
             }
-            .padding(.top, 50)
+            .padding(.bottom, -80)
             .background(
                 Rectangle()
                     .fill(Color.black.opacity(0.8))
                     .edgesIgnoringSafeArea(.bottom)
             )
+            
+            HStack {
+                Spacer()
+                Button(action: {
+                    showingAddBirthday = true
+                }) {
+                    Image(systemName: "plus")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.red)
+                        .clipShape(Circle())
+                        .padding(.trailing, 20)
+                        .padding(.bottom, 0)
+                }
+            }
         }
     }
 
@@ -148,7 +195,10 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(BirthdayManager())
             .previewDevice("iPhone 15")
             .preferredColorScheme(.dark)
     }
 }
+
+

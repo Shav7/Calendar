@@ -17,6 +17,10 @@
 		B7B346C02C4F56FD0051AA82 /* Contextual_CalendarUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B346BF2C4F56FD0051AA82 /* Contextual_CalendarUITests.swift */; };
 		B7B346C22C4F56FD0051AA82 /* Contextual_CalendarUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B346C12C4F56FD0051AA82 /* Contextual_CalendarUITestsLaunchTests.swift */; };
 		B7B346D12C506F500051AA82 /* WeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B346D02C506F500051AA82 /* WeekView.swift */; };
+		B7B346D32C507E6F0051AA82 /* AddBirthdayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B346D22C507E600051AA82 /* AddBirthdayView.swift */; };
+		B7B346D52C508BF40051AA82 /* Birthday.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B346D42C508BEC0051AA82 /* Birthday.swift */; };
+		B7B346D72C508C0A0051AA82 /* BirthdayManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B346D62C508C010051AA82 /* BirthdayManager.swift */; };
+		B7B346D92C50AD6E0051AA82 /* BirthdayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B346D82C50AD5A0051AA82 /* BirthdayDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +54,10 @@
 		B7B346BF2C4F56FD0051AA82 /* Contextual_CalendarUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contextual_CalendarUITests.swift; sourceTree = "<group>"; };
 		B7B346C12C4F56FD0051AA82 /* Contextual_CalendarUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contextual_CalendarUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		B7B346D02C506F500051AA82 /* WeekView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekView.swift; sourceTree = "<group>"; };
+		B7B346D22C507E600051AA82 /* AddBirthdayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBirthdayView.swift; sourceTree = "<group>"; };
+		B7B346D42C508BEC0051AA82 /* Birthday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Birthday.swift; sourceTree = "<group>"; };
+		B7B346D62C508C010051AA82 /* BirthdayManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthdayManager.swift; sourceTree = "<group>"; };
+		B7B346D82C50AD5A0051AA82 /* BirthdayDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthdayDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +110,10 @@
 			children = (
 				B7B3469F2C4F56FC0051AA82 /* Contextual_CalendarApp.swift */,
 				B7B346A12C4F56FC0051AA82 /* ContentView.swift */,
+				B7B346D42C508BEC0051AA82 /* Birthday.swift */,
+				B7B346D22C507E600051AA82 /* AddBirthdayView.swift */,
+				B7B346D82C50AD5A0051AA82 /* BirthdayDetailView.swift */,
+				B7B346D62C508C010051AA82 /* BirthdayManager.swift */,
 				B7B346D02C506F500051AA82 /* WeekView.swift */,
 				B7B346A32C4F56FC0051AA82 /* Assets.xcassets */,
 				B7B346A82C4F56FC0051AA82 /* Persistence.swift */,
@@ -266,9 +278,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7B346D92C50AD6E0051AA82 /* BirthdayDetailView.swift in Sources */,
 				B7B346AC2C4F56FC0051AA82 /* Contextual_Calendar.xcdatamodeld in Sources */,
 				B7B346D12C506F500051AA82 /* WeekView.swift in Sources */,
+				B7B346D72C508C0A0051AA82 /* BirthdayManager.swift in Sources */,
 				B7B346A92C4F56FC0051AA82 /* Persistence.swift in Sources */,
+				B7B346D32C507E6F0051AA82 /* AddBirthdayView.swift in Sources */,
+				B7B346D52C508BF40051AA82 /* Birthday.swift in Sources */,
 				B7B346A22C4F56FC0051AA82 /* ContentView.swift in Sources */,
 				B7B346A02C4F56FC0051AA82 /* Contextual_CalendarApp.swift in Sources */,
 			);
