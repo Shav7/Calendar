@@ -11,7 +11,7 @@ struct ContentView: View {
     @State private var selectedDate: IdentifiableDate?
     @EnvironmentObject var birthdayManager: BirthdayManager
     private let calendar = Calendar.current
-    private let weekdaySymbols = Calendar.current.shortWeekdaySymbols // Change to shortWeekdaySymbols
+    private let weekdaySymbols = Calendar.current.shortWeekdaySymbols
 
     var body: some View {
         ZStack {
@@ -24,15 +24,13 @@ struct ContentView: View {
             .padding(.top, 20)
             .padding(.horizontal, 20)
             .frame(maxHeight: .infinity, alignment: .top)
-            .background(Color.black.edgesIgnoringSafeArea(.all))
+            .background(gradientBackground.edgesIgnoringSafeArea(.all))
             .gesture(
                 DragGesture()
                     .onEnded { value in
-                        if value.translation.width < 0 {
-                            // Swipe left
+                        if value.translation.height < 0 {
                             nextMonth()
-                        } else if value.translation.width > 0 {
-                            // Swipe right
+                        } else if value.translation.height > 0 {
                             previousMonth()
                         }
                     }
@@ -52,13 +50,13 @@ struct ContentView: View {
 
     private var headerView: some View {
         HStack {
-            monthNavigationButton(systemName: "chevron.left", action: previousMonth)
+            monthNavigationButton(systemName: "chevron.up", action: previousMonth)
             Spacer()
             Text(currentDate.formatted(.dateTime.month().year()))
-                .font(.title)
+                .font(.system(.title, design: .monospaced))
                 .fontWeight(.bold)
             Spacer()
-            monthNavigationButton(systemName: "chevron.right", action: nextMonth)
+            monthNavigationButton(systemName: "chevron.down", action: nextMonth)
         }
         .padding(.horizontal)
     }
@@ -66,8 +64,8 @@ struct ContentView: View {
     private func monthNavigationButton(systemName: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Image(systemName: systemName)
-                .font(.title2)
-                .foregroundColor(.red)
+                .font(.system(.title2, design: .monospaced))
+                .foregroundColor(.white)
         }
     }
 
@@ -76,9 +74,9 @@ struct ContentView: View {
             ForEach(weekdaySymbols, id: \.self) { symbol in
                 Text(symbol)
                     .frame(maxWidth: .infinity)
-                    .font(.subheadline)
+                    .font(.system(.subheadline, design: .monospaced))
                     .fontWeight(.semibold)
-                    .foregroundColor(.red)
+                    .foregroundColor(.white)
                     .opacity(0.7)
             }
         }
@@ -107,9 +105,10 @@ struct ContentView: View {
             Text("\(calendar.component(.day, from: date))")
                 .frame(height: 50)
                 .frame(maxWidth: .infinity)
-                .background(isToday ? Color.red : Color.clear)
+                .background(isToday ? (Color(red: 0.1, green: 0.3, blue: 0.5)) : Color.clear)
+                .background(Color.black.opacity(0.1))
                 .foregroundColor(isToday ? .white : (isCurrentMonth ? .primary : .secondary))
-                .font(isToday ? .title3.bold() : .title3)
+                .font(isToday ? .system(.title3, design: .monospaced).bold() : .system(.body, design: .monospaced))
                 .clipShape(Circle())
                 .opacity(isCurrentMonth ? 1 : 0.5)
             
@@ -117,7 +116,7 @@ struct ContentView: View {
                 VStack {
                     Spacer()
                     Text("🎉")
-                        .font(.caption)
+                        .font(.system(.caption, design: .monospaced))
                         .padding(.top, 25)
                 }
             }
@@ -128,19 +127,19 @@ struct ContentView: View {
         VStack {
             Spacer()
             HStack {
-                Spacer() // This will push the "Today" button to the center
+                Spacer()
                 Button(action: {
                     currentDate = Date()
                 }) {
                     Text("Today")
-                        .font(.headline)
-                        .foregroundColor(.red)
+                        .font(.system(.headline, design: .monospaced))
+                        .foregroundColor(.white)
                         .padding(.vertical, 18)
                         .padding(.horizontal, 28)
-                        .background(Color.red.opacity(0.2))
+                        .background(Color.black.opacity(0.2))
                         .cornerRadius(30)
                 }
-                Spacer() // This will push the "+" button to the right corner
+                Spacer()
             }
             .padding(.bottom, -80)
             .background(
@@ -155,10 +154,10 @@ struct ContentView: View {
                     showingAddBirthday = true
                 }) {
                     Image(systemName: "plus")
-                        .font(.headline)
+                        .font(.system(.headline, design: .monospaced))
                         .foregroundColor(.white)
                         .padding()
-                        .background(Color.red)
+                        .background(Color.black.opacity(0.2))
                         .clipShape(Circle())
                         .padding(.trailing, 20)
                         .padding(.bottom, 0)
@@ -190,6 +189,14 @@ struct ContentView: View {
     private func nextMonth() {
         currentDate = calendar.date(byAdding: .month, value: 1, to: currentDate) ?? currentDate
     }
+
+    private var gradientBackground: LinearGradient {
+        LinearGradient(
+            gradient: Gradient(colors: [Color(red: 0.0, green: 0.1, blue: 0.2), Color(red: 0.6, green: 0.7, blue: 0.8)]),
+            startPoint: .top,
+            endPoint: .bottom
+        )
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
@@ -200,5 +207,12 @@ struct ContentView_Previews: PreviewProvider {
             .preferredColorScheme(.dark)
     }
 }
+
+
+
+
+
+
+
 
 

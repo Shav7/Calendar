@@ -4,6 +4,7 @@ struct Birthday: Codable, Identifiable {
     var id = UUID()
     var name: String
     var date: Date
+    var notes: String // Add this line
     
     var nextBirthday: Date {
         let calendar = Calendar.current
@@ -26,4 +27,5 @@ struct Birthday: Codable, Identifiable {
         return ageComponents.year!
     }
 }
+
 

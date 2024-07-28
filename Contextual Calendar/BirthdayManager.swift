@@ -1,38 +1,44 @@
 import Foundation
+import Combine
 
 class BirthdayManager: ObservableObject {
-    @Published var birthdays: [Birthday]
+    @Published var birthdays: [Birthday] = []
 
-    private let birthdaysKey = "birthdaysKey"
+    private let storageKey = "birthdays"
 
     init() {
-        self.birthdays = []
-        self.birthdays = loadBirthdays()
+        loadBirthdays()
     }
 
     func addBirthday(_ birthday: Birthday) {
         birthdays.append(birthday)
+        saveBirthdays()
     }
 
-    private func saveBirthdays() {
-        if let encoded = try? JSONEncoder().encode(birthdays) {
-            UserDefaults.standard.set(encoded, forKey: birthdaysKey)
-        }
-    }
-
-    private func loadBirthdays() -> [Birthday] {
-        if let savedData = UserDefaults.standard.data(forKey: birthdaysKey),
-           let decoded = try? JSONDecoder().decode([Birthday].self, from: savedData) {
-            return decoded
-        }
-        return []
+    func removeBirthday(at offsets: IndexSet) {
+        birthdays.remove(atOffsets: offsets)
+        saveBirthdays()
     }
 
     func birthdays(on date: Date) -> [Birthday] {
         let calendar = Calendar.current
-        return birthdays.filter { calendar.isDate($0.nextBirthday, inSameDayAs: date) }
+        return birthdays.filter { calendar.isDate($0.date, inSameDayAs: date) }
+    }
+
+    private func saveBirthdays() {
+        if let encoded = try? JSONEncoder().encode(birthdays) {
+            UserDefaults.standard.set(encoded, forKey: storageKey)
+        }
+    }
+
+    private func loadBirthdays() {
+        if let savedData = UserDefaults.standard.data(forKey: storageKey),
+           let savedBirthdays = try? JSONDecoder().decode([Birthday].self, from: savedData) {
+            birthdays = savedBirthdays
+        }
     }
 }
+
 
 
 
