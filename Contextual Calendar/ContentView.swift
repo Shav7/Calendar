@@ -9,6 +9,7 @@ struct ContentView: View {
     @State private var currentDate = Date()
     @State private var showingAddBirthday = false
     @State private var selectedDate: IdentifiableDate?
+    @State private var selectedGradientColor: GradientColor = .blue
     @EnvironmentObject var birthdayManager: BirthdayManager
     private let calendar = Calendar.current
     private let weekdaySymbols = Calendar.current.shortWeekdaySymbols
@@ -29,8 +30,10 @@ struct ContentView: View {
                 DragGesture()
                     .onEnded { value in
                         if value.translation.height < 0 {
+                            // Swipe up
                             nextMonth()
                         } else if value.translation.height > 0 {
+                            // Swipe down
                             previousMonth()
                         }
                     }
@@ -108,7 +111,7 @@ struct ContentView: View {
                 .background(isToday ? (Color(red: 0.1, green: 0.3, blue: 0.5)) : Color.clear)
                 .background(Color.black.opacity(0.1))
                 .foregroundColor(isToday ? .white : (isCurrentMonth ? .primary : .secondary))
-                .font(isToday ? .system(.title3, design: .monospaced).bold() : .system(.body, design: .monospaced))
+                .font(isToday ? .system(.title3, design: .monospaced).bold() : .system(.body, design: .monospaced)) // Adjusted font size
                 .clipShape(Circle())
                 .opacity(isCurrentMonth ? 1 : 0.5)
             
@@ -127,6 +130,15 @@ struct ContentView: View {
         VStack {
             Spacer()
             HStack {
+                Button(action: switchGradient) {
+                    Circle()
+                        .fill(currentGradientColor)
+                        .frame(width: 30, height: 30)
+                        .padding()
+                        .background(Color.black.opacity(0.1)) // Adjusted opacity for lighter color
+                        .clipShape(Circle())
+                }
+                .padding(.leading, 20)
                 Spacer()
                 Button(action: {
                     currentDate = Date()
@@ -139,16 +151,6 @@ struct ContentView: View {
                         .background(Color.black.opacity(0.2))
                         .cornerRadius(30)
                 }
-                Spacer()
-            }
-            .padding(.bottom, -80)
-            .background(
-                Rectangle()
-                    .fill(Color.black.opacity(0.8))
-                    .edgesIgnoringSafeArea(.bottom)
-            )
-            
-            HStack {
                 Spacer()
                 Button(action: {
                     showingAddBirthday = true
@@ -163,6 +165,10 @@ struct ContentView: View {
                         .padding(.bottom, 0)
                 }
             }
+            .padding(.bottom, 20) // Adjusted padding to align buttons correctly
+            .background(
+                Color.clear
+            )
         }
     }
 
@@ -190,13 +196,54 @@ struct ContentView: View {
         currentDate = calendar.date(byAdding: .month, value: 1, to: currentDate) ?? currentDate
     }
 
-    private var gradientBackground: LinearGradient {
-        LinearGradient(
-            gradient: Gradient(colors: [Color(red: 0.0, green: 0.1, blue: 0.2), Color(red: 0.6, green: 0.7, blue: 0.8)]),
-            startPoint: .top,
-            endPoint: .bottom
-        )
+    private func switchGradient() {
+        switch selectedGradientColor {
+        case .blue:
+            selectedGradientColor = .red
+        case .red:
+            selectedGradientColor = .green
+        case .green:
+            selectedGradientColor = .blue
+        }
     }
+
+    private var gradientBackground: LinearGradient {
+        switch selectedGradientColor {
+        case .blue:
+            return LinearGradient(
+                gradient: Gradient(colors: [Color(red: 0.0, green: 0.1, blue: 0.2), Color(red: 0.6, green: 0.7, blue: 0.8)]),
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        case .red:
+            return LinearGradient(
+                gradient: Gradient(colors: [Color(red: 0.2, green: 0.0, blue: 0.0), Color(red: 0.8, green: 0.6, blue: 0.6)]),
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        case .green:
+            return LinearGradient(
+                gradient: Gradient(colors: [Color(red: 0.0, green: 0.2, blue: 0.0), Color(red: 0.6, green: 0.8, blue: 0.6)]),
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        }
+    }
+
+    private var currentGradientColor: Color {
+        switch selectedGradientColor {
+        case .blue:
+            return Color.blue
+        case .red:
+            return Color.red
+        case .green:
+            return Color.green
+        }
+    }
+}
+
+enum GradientColor {
+    case blue, red, green
 }
 
 struct ContentView_Previews: PreviewProvider {
@@ -207,6 +254,8 @@ struct ContentView_Previews: PreviewProvider {
             .preferredColorScheme(.dark)
     }
 }
+
+
 
 
 
